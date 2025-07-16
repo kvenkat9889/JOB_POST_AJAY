@@ -32,6 +32,10 @@
             padding: 20px;
         }
         
+       
+        
+        
+        
         @keyframes pulse {
             0% { transform: scale(1); opacity: 0.3; }
             50% { transform: scale(1.15); opacity: 0.15; }
@@ -42,8 +46,7 @@
             from { transform: translateY(20px); opacity: 0; }
             to { transform: translateY(0); opacity: 1; }
         }
-        
-        header {
+          header {
             position: relative;
             text-align: center;
             height: 140px;
@@ -129,7 +132,7 @@
             max-width: 1200px;
             margin: 30px auto;
             padding: 30px;
-            background: white;
+         background: white;
             border-radius: 12px;
             box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
             transition: transform 0.3s ease;
@@ -400,133 +403,6 @@
             background: #d1d5db;
         }
         
-        /* Job Listings Styles */
-        .listings-container {
-            max-width: 1200px;
-            margin: 40px auto;
-            padding: 0 20px;
-        }
-        
-        .listings-title {
-            text-align: center;
-            margin-bottom: 30px;
-            color: var(--primary-color);
-            font-size: 1.8rem;
-            font-weight: 600;
-        }
-        
-        .job-listings {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-            gap: 25px;
-            margin-top: 40px;
-        }
-        
-        .job-card {
-            background: white;
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .job-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-        }
-        
-        .job-card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 15px;
-        }
-        
-        .job-title {
-            font-size: 1.3rem;
-            font-weight: 600;
-            color: var(--dark-color);
-            margin-bottom: 5px;
-        }
-        
-        .job-type {
-            display: inline-block;
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 500;
-            background-color: #e0e7ff;
-            color: var(--primary-color);
-        }
-        
-        .job-salary {
-            font-weight: 600;
-            color: var(--success-color);
-            margin: 10px 0;
-        }
-        
-        .job-location {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            color: var(--secondary-color);
-            font-size: 0.9rem;
-            margin-bottom: 10px;
-        }
-        
-        .job-skills {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin: 15px 0;
-        }
-        
-        .skill-tag {
-            background-color: #f3f4f6;
-            color: var(--dark-color);
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-        }
-        
-        .job-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 15px;
-            padding-top: 15px;
-            border-top: 1px solid #e5e7eb;
-        }
-        
-        .job-deadline {
-            font-size: 0.85rem;
-            color: var(--secondary-color);
-        }
-        
-        .delete-btn {
-            background-color: #fee2e2;
-            color: #ef4444;
-            border: none;
-            padding: 6px 12px;
-            border-radius: 6px;
-            font-size: 0.85rem;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-        
-        .delete-btn:hover {
-            background-color: #fecaca;
-        }
-        
-        .no-jobs {
-            text-align: center;
-            color: var(--secondary-color);
-            padding: 40px 0;
-            grid-column: 1 / -1;
-        }
-        
         /* Responsive Design */
         @media (max-width: 768px) {
             .form-container {
@@ -544,9 +420,6 @@
             }
             .modal-content {
                 width: 95%;
-            }
-            .job-listings {
-                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -625,14 +498,6 @@
         </form>
     </div>
     
-    <!-- Job Listings Section -->
-    <div class="listings-container">
-        <h2 class="listings-title">Current Job Listings</h2>
-        <div class="job-listings" id="jobListings">
-            <!-- Job cards will be inserted here dynamically -->
-        </div>
-    </div>
-    
     <!-- Confirmation Modal -->
     <div class="modal" id="confirmModal">
         <div class="modal-content">
@@ -641,18 +506,6 @@
             <div class="modal-buttons">
                 <button class="modal-btn confirm" id="confirmSubmit">Yes, Post It! ✅</button>
                 <button class="modal-btn cancel" id="cancelSubmit">Cancel ❌</button>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Delete Confirmation Modal -->
-    <div class="modal" id="deleteModal">
-        <div class="modal-content">
-            <h2>Delete Job Listing 🗑️</h2>
-            <p>Are you sure you want to delete this job listing? This action cannot be undone.</p>
-            <div class="modal-buttons">
-                <button class="modal-btn confirm" id="confirmDelete">Yes, Delete It ❌</button>
-                <button class="modal-btn cancel" id="cancelDelete">Cancel ↩️</button>
             </div>
         </div>
     </div>
@@ -669,111 +522,22 @@
             const minDate = today.toISOString().split('T')[0];
             const maxDate = new Date(today.setFullYear(today.getFullYear() + 2)).toISOString().split('T')[0];
             const deadlineInput = document.getElementById('deadline');
-            const jobListingsContainer = document.getElementById('jobListings');
-            const deleteModal = document.getElementById('deleteModal');
-            const confirmDeleteBtn = document.getElementById('confirmDelete');
-            const cancelDeleteBtn = document.getElementById('cancelDelete');
-            
             deadlineInput.setAttribute('min', minDate);
             deadlineInput.setAttribute('max', maxDate);
             
             // Character count for job description
             jobDescription.addEventListener('input', function() {
-                const charCount = jobDescription.value.length;
+                const charCount = jobDescription.value.length; // Count all characters including spaces
                 jobDescriptionCount.textContent = `Characters: ${charCount}/5000`;
                 jobDescriptionCount.style.color = charCount > 5000 ? 'var(--error-color)' : 'var(--secondary-color)';
             });
             
-            // Current job ID to be deleted
-            let currentJobIdToDelete = null;
-            
-            // Fetch and display all jobs
-            async function fetchAndDisplayJobs() {
-                try {
-                    const response = await fetch('http://3.85.61.23:3405/api/jobs');
-                    if (!response.ok) {
-                        throw new Error('Failed to fetch jobs');
-                    }
-                    const data = await response.json();
-                    renderJobListings(data.jobs);
-                } catch (error) {
-                    console.error('Error fetching jobs:', error);
-                    jobListingsContainer.innerHTML = `
-                        <div class="no-jobs">
-                            <p>Error loading job listings. Please try again later.</p>
-                        </div>
-                    `;
-                }
-            }
-            
-            // Render job listings
-            function renderJobListings(jobs) {
-                if (jobs.length === 0) {
-                    jobListingsContainer.innerHTML = `
-                        <div class="no-jobs">
-                            <p>No job listings yet. Create your first job posting above!</p>
-                        </div>
-                    `;
-                    return;
-                }
-                
-                jobListingsContainer.innerHTML = jobs.map(job => `
-                    <div class="job-card" data-id="${job.id}">
-                        <div class="job-card-header">
-                            <div>
-                                <h3 class="job-title">${job.job_title}</h3>
-                                <span class="job-type">${formatJobType(job.job_type)}</span>
-                            </div>
-                        </div>
-                        <p class="job-salary">${job.salary}</p>
-                        <div class="job-location">
-                            <span>📍 ${job.location}</span>
-                        </div>
-                        <div class="job-skills">
-                            ${job.skill_set.map(skill => `<span class="skill-tag">${skill}</span>`).join('')}
-                        </div>
-                        <p class="job-description">${job.job_description.substring(0, 150)}...</p>
-                        <div class="job-footer">
-                            <span class="job-deadline">⏰ Deadline: ${formatDate(job.deadline)}</span>
-                            <button class="delete-btn" data-id="${job.id}">Delete</button>
-                        </div>
-                    </div>
-                `).join('');
-                
-                // Add event listeners to delete buttons
-                document.querySelectorAll('.delete-btn').forEach(button => {
-                    button.addEventListener('click', function(e) {
-                        e.stopPropagation();
-                        currentJobIdToDelete = this.getAttribute('data-id');
-                        deleteModal.style.display = 'flex';
-                    });
-                });
-            }
-            
-            // Format job type for display
-            function formatJobType(type) {
-                const types = {
-                    'full-time': 'Full-time',
-                    'part-time': 'Part-time',
-                    'contract': 'Contract',
-                    'internship': 'Internship',
-                    'remote': 'Remote'
-                };
-                return types[type] || type;
-            }
-            
-            // Format date for display
-            function formatDate(dateString) {
-                const options = { year: 'numeric', month: 'short', day: 'numeric' };
-                return new Date(dateString).toLocaleDateString('en-US', options);
-            }
-            
             // Validation functions
-function validateExperience(value) {
-    if (!/^[0-9]+(\.[0-9])?$/.test(value)) return false;
-    const num = parseFloat(value);
-    return !isNaN(num) && num >= 0 && num <= 40;  // Changed from 1 to 0
-}
+            function validateExperience(value) {
+                if (!/^[0-9]+(\.[0-9])?$/.test(value)) return false;
+                const num = parseFloat(value);
+                return !isNaN(num) && num >= 1 && num <= 40;
+            }
             
             function validateLocation(value) {
                 return /^[A-Za-z\s,]{3,60}$/.test(value) && 
@@ -826,10 +590,10 @@ function validateExperience(value) {
                         isValid = /^\S.*\S$/.test(target.value) && target.value.length > 0;
                         errorMessage = 'Please enter at least one valid skill (no leading/trailing spaces)';
                         break;
-case 'experience':
-    isValid = validateExperience(target.value);
-    errorMessage = 'Enter a number between 0 and 40 (e.g., 0, 5 or 5.5)';
-    break;
+                    case 'experience':
+                        isValid = validateExperience(target.value);
+                        errorMessage = 'Enter a number between 1 and 40 (e.g., 5 or 5.5)';
+                        break;
                     case 'jobType':
                         isValid = target.value !== '';
                         errorMessage = 'Please select a job type';
@@ -892,12 +656,12 @@ case 'experience':
                                 errorMessage = 'Please enter at least one valid skill (no leading/trailing spaces)';
                             }
                             break;
-case 'experience':
-    if (!validateExperience(input.value)) {
-        isValid = false;
-        errorMessage = 'Enter a number between 0 and 40 (e.g., 0, 5 or 5.5)';
-    }
-    break;
+                        case 'experience':
+                            if (!validateExperience(input.value)) {
+                                isValid = false;
+                                errorMessage = 'Enter a number between 1 and 40 (e.g., 5 or 5.5)';
+                            }
+                            break;
                         case 'jobType':
                             if (input.value === '') {
                                 isValid = false;
@@ -984,10 +748,7 @@ case 'experience':
                     }, 3000);
                     
                     form.reset();
-                    jobDescriptionCount.textContent = 'Characters: 0/5000';
-                    
-                    // Refresh the job listings
-                    await fetchAndDisplayJobs();
+                    jobDescriptionCount.textContent = 'Characters: 0/5000'; // Reset character count
                     
                 } catch (error) {
                     console.error('Error:', error);
@@ -1012,65 +773,6 @@ case 'experience':
             cancelBtn.addEventListener('click', function() {
                 modal.style.display = 'none';
             });
-            
-            // Handle delete confirmation
-            confirmDeleteBtn.addEventListener('click', async function() {
-                deleteModal.style.display = 'none';
-                
-                if (!currentJobIdToDelete) return;
-                
-                try {
-                    const response = await fetch(`http://3.85.61.23:3405/api/jobs/${currentJobIdToDelete}`, {
-                        method: 'DELETE'
-                    });
-                    
-                    if (!response.ok) {
-                        throw new Error('Failed to delete job');
-                    }
-                    
-                    // Create popup notification
-                    const notification = document.createElement('div');
-                    notification.className = 'notification';
-                    notification.innerHTML = 'Job deleted successfully 🗑️';
-                    document.body.appendChild(notification);
-                    
-                    // Remove notification after animation
-                    setTimeout(() => {
-                        notification.remove();
-                    }, 3000);
-                    
-                    // Refresh the job listings
-                    await fetchAndDisplayJobs();
-                    
-                } catch (error) {
-                    console.error('Error deleting job:', error);
-                    
-                    const errorDisplay = document.createElement('div');
-                    errorDisplay.style.backgroundColor = '#ef4444';
-                    errorDisplay.style.color = 'white';
-                    errorDisplay.style.padding = '15px';
-                    errorDisplay.style.borderRadius = '8px';
-                    errorDisplay.style.position = 'fixed';
-                    errorDisplay.style.bottom = '20px';
-                    errorDisplay.style.left = '50%';
-                    errorDisplay.style.transform = 'translateX(-50%)';
-                    errorDisplay.textContent = `Error: ${error.message} 😔`;
-                    document.body.appendChild(errorDisplay);
-                    
-                    setTimeout(() => {
-                        errorDisplay.remove();
-                    }, 5000);
-                }
-            });
-            
-            // Handle delete cancel
-            cancelDeleteBtn.addEventListener('click', function() {
-                deleteModal.style.display = 'none';
-                currentJobIdToDelete = null;
-            });
-            
-            // Initial fetch of job listings
-            fetchAndDisplayJobs();
         });
     </script>
 </body>

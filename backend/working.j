@@ -145,25 +145,7 @@ app.get('/jobs/:id', (req, res) => {
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
-// Add this DELETE endpoint to your server code
-app.delete('/api/jobs/:id', async (req, res) => {
-  try {
-    const { id } = req.params;
-    const result = await pool.query(
-      'DELETE FROM jobs WHERE id = $1 RETURNING *',
-      [id]
-    );
-    
-    if (result.rows.length === 0) {
-      return res.status(404).json({ error: 'Job not found' });
-    }
-    
-    res.json({ message: 'Job deleted successfully', job: result.rows[0] });
-  } catch (err) {
-    console.error('Error deleting job:', err);
-    res.status(500).json({ error: 'Failed to delete job', details: err.message });
-  }
-}); 
+
 // Start server
 app.listen(port, () => {
   console.log(`Server running on http://3.85.61.23:${port}`);
