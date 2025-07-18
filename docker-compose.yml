@@ -1,74 +1,51 @@
+
 version: '3.8'
 
 services:
   postgres:
-    image: postgres:13
+    image: postgres:14
+    container_name: postgres-job
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: admin123
       POSTGRES_DB: new_employee_db
+    ports:
+      - "6616:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
-    ports:
-      - "5411:5432"
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
-      interval: 5s
-      timeout: 5s
-      retries: 10
+    restart: always
 
   backend:
     build: ./backend
+    container_name: backend-job
     environment:
+      PORT: 3059
       DB_USER: postgres
-      DB_HOST: postgres
-      DB_NAME: new_employee_db
       DB_PASSWORD: admin123
+      DB_NAME: new_employee_db
+      DB_HOST: postgres
       DB_PORT: 5432
-      PORT: 3411
-    depends_on:
-      postgres:
-        condition: service_healthy
+      FRONTEND_URL: http://localhost:9059
     ports:
-      - "3411:3411"
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://44.202.56.233:3411/api/jobs"]
-      interval: 5s
-      timeout: 5s
-      retries: 10
-
-  job_posts:
-    image: nginx:alpine
-    volumes:
-      - ./Job_Posts:/usr/share/nginx/html
-      - ./nginx-posts.conf:/etc/nginx/conf.d/default.conf
-    ports:
-      - "8734:80"
+      - "3059:3059"
     depends_on:
-      backend:
-        condition: service_healthy
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://44.202.56.233"]
-      interval: 5s
-      timeout: 5s
-      retries: 10
+      - postgres
+    restart: always
 
-  job_form:
-    image: nginx:alpine
-    volumes:
-      - ./Job_form:/usr/share/nginx/html
-      - ./nginx-form.conf:/etc/nginx/conf.d/default.conf
+  job-posts:
+    build: ./Job_Posts
+    container_name: job-posts-ui
     ports:
-      - "8735:80"
-    depends_on:
-      backend:
-        condition: service_healthy
+      - "8188:80"
+    restart: always
 
-networks:
-  default:
-    name: job-network
-    driver: bridge
+  job-form:
+    build: ./Job_form
+    container_name: job-form-ui
+    ports:
+      - "8189:80"
+    restart: always
 
 volumes:
   postgres_data:
