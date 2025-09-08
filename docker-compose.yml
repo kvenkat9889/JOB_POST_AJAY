@@ -33,7 +33,7 @@ services:
     ports:
       - "3411:3411"
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://44.223.23.14:3411/api/jobs"]
+      test: ["CMD", "curl", "-f", "http://13.50.16.239:3411/api/jobs"]
       interval: 5s
       timeout: 5s
       retries: 10
@@ -49,7 +49,7 @@ services:
       backend:
         condition: service_healthy
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://44.223.23.14"]
+      test: ["CMD", "curl", "-f", "http://13.50.16.239"]
       interval: 5s
       timeout: 5s
       retries: 10
@@ -72,3 +72,4 @@ networks:
 
 volumes:
   postgres_data:
+

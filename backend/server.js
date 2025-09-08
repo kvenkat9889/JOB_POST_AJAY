@@ -19,9 +19,9 @@ const pool = new Pool({
 app.use(cors({
   origin: [
     process.env.FRONTEND_URL,
-    "http://13.50.16.239:8020",
+    "http://13.50.16.239:8034",
     "http://127.0.0.1:5500",
-    "http://13.50.16.239:8021",
+    "http://13.50.16.239:8035",
    
   ],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
